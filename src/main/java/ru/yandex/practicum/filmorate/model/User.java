@@ -13,5 +13,5 @@ public class User {
     private String email;
     private String login;
     private String name;
-    private final LocalDate birthday;
+    private LocalDate birthday;
 }
