@@ -29,7 +29,7 @@ public class FilmController {
     @PutMapping("/films")
     public Film updateFilm(@RequestBody Film film) {
         log.info("Получен запрос PUT /films");
-        if (filmService.getCurrentFilmId() < film.getId()) {
+        if (!filmService.isFilmExists(film)) {
             log.warn("Такого фильма не существует.");
             throw new ValidationException("Такого фильма не существует.");
         }

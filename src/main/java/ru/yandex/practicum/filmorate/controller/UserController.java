@@ -29,7 +29,7 @@ public class UserController {
     @PutMapping("/users")
     public User updateUser(@RequestBody User user) {
         log.info("Получен запрос PUT /users");
-        if (userService.getCurrentUserId() < user.getId()) {
+        if (!userService.isUserExists(user)) {
             log.warn("Такого пользователя не существует.");
             throw new ValidationException("Такого пользователя не существует.");
         }
