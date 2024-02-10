@@ -1,35 +1,48 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
+@Service
+@RequiredArgsConstructor
 public class FilmService {
 
-    private final Map<Integer, Film> films = new HashMap<>();
-    private int filmId = 0;
+    private final FilmStorage inMemoryFilmStorage;
 
-    private int generateNewId() {
-        return ++filmId;
+    public void addLike(long filmId, long userId) {
+        Film film = inMemoryFilmStorage.getFilms().get(filmId);
+        if (!(film.getLikes().contains(userId))) {
+            film.getLikes().add(userId);
+            film.setLikesSum(film.getLikesSum() + 1);
+        }
     }
 
-    public void addFilm(Film film) {
-        film.setId(generateNewId());
-        films.put(film.getId(), film);
+    public void deleteLike(long filmId, long userId) {
+        if (!inMemoryFilmStorage.getFilms().containsKey(filmId)) {
+            throw new FilmNotFoundException("Указанного фильма не существует");
+        }
+        Film film = inMemoryFilmStorage.getFilms().get(filmId);
+        if (!(film.getLikes().contains(userId))) {
+            throw new UserNotFoundException("Указанного пользователя не существует");
+        }
+            film.getLikes().remove(userId);
+            film.setLikesSum(film.getLikesSum() + 1);
     }
 
-    public void updateFilm(Film film) {
-        films.put(film.getId(), film);
-    }
-
-    public List<Film> getFilms() {
-        return new ArrayList<>(films.values());
-    }
-
-    public boolean isFilmExists(Film film) {
-        return films.containsKey(film.getId());
+    public List<Film> getTop(int count) {
+        List<Film> films = new ArrayList<>(inMemoryFilmStorage.getFilms().values());
+        return films.stream()
+                .sorted(Comparator.comparing(Film::getLikesSum).reversed())
+                .limit(count)
+                .collect(Collectors.toList());
     }
 }
