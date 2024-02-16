@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
 
     private final InMemoryUserStorage inMemoryUserStorage;
-    private final UserService userService;
+    private final UserService service;
 
     @PostMapping("/users")
     public User addUser(@RequestBody User user) {
@@ -64,22 +64,22 @@ public class UserController {
 
     @PutMapping("/users/{id}/friends/{friendId}")
     public void addFriend(@PathVariable long id, @PathVariable long friendId) {
-        userService.addFriend(id, friendId);
+        service.addFriend(id, friendId);
     }
 
     @DeleteMapping("/users/{id}/friends/{friendId}")
     public void deleteFriend(@PathVariable long id, @PathVariable long friendId) {
-        userService.deleteFriend(id, friendId);
+        service.deleteFriend(id, friendId);
     }
 
     @GetMapping("/users/{id}/friends")
     public List<User> getUserFriends(@PathVariable long id) {
-        return userService.getUserFriends(id);
+        return service.getUserFriends(id);
     }
 
     @GetMapping("/users/{id}/friends/common/{otherId}")
     public List<User> getUserCommonFriends(@PathVariable long id, @PathVariable long otherId) {
         log.info("Получен запрос GET /users/{id}/friends/common/{otherId}");
-        return userService.commonFriends(id, otherId);
+        return service.commonFriends(id, otherId);
     }
 }

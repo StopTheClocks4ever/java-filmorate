@@ -18,7 +18,7 @@ import java.util.List;
 public class FilmController {
 
     private final FilmStorage inMemoryFilmStorage;
-    private final FilmService filmService;
+    private final FilmService service;
 
     @PostMapping("/films")
     public Film addFilm(@RequestBody Film film) {
@@ -65,16 +65,16 @@ public class FilmController {
     @PutMapping("/films/{id}/like/{userId}")
     public void likeFilm(@PathVariable long id, @PathVariable long userId) {
         log.info("Получен запрос PUT /films/{id}/like/{userId}");
-        filmService.addLike(id, userId);
+        service.addLike(id, userId);
     }
 
     @DeleteMapping("/films/{id}/like/{userId}")
     public void deleteLike(@PathVariable long id, @PathVariable long userId) {
-        filmService.deleteLike(id, userId);
+        service.deleteLike(id, userId);
     }
 
     @GetMapping("/films/popular")
     public List<Film> getUserFriends(@RequestParam (value = "count", defaultValue = "10", required = false) Integer count) {
-        return filmService.getTop(count);
+        return service.getTop(count);
     }
 }

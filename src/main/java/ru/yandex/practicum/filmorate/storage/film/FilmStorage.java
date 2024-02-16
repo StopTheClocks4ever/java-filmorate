@@ -12,7 +12,7 @@ public interface FilmStorage {
 
     void deleteFilm(int filmId);
 
-    public boolean isFilmExists(Film film);
+    boolean isFilmExists(Film film);
 
     Map<Long, Film> getFilms();
 }
