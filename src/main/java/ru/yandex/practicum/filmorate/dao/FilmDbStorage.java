@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -142,7 +141,7 @@ public class FilmDbStorage implements FilmStorage {
         Film film = getFilmById(id);
         if (likesList.isEmpty()) {
             jdbcTemplate.update("INSERT INTO Likes (film_id, user_id) VALUES(?, ?)", id, userId);
-            film.setRate(film.getRate()+1);
+            film.setRate(film.getRate() + 1);
             updateFilm(film);
         }
     }
@@ -152,7 +151,7 @@ public class FilmDbStorage implements FilmStorage {
         Film film = getFilmById(id);
         if (!likesList.isEmpty()) {
             jdbcTemplate.update("DELETE FROM Likes WHERE film_id=? AND user_id=?", id, userId);
-            film.setRate(film.getRate()-1);
+            film.setRate(film.getRate() - 1);
         } else {
             throw new LikeNotFoundException("Лайка у указаного фильма от этого пользователя нет");
         }

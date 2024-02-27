@@ -13,9 +13,10 @@ public class UserService {
 
     private final UserStorage userStorage;
 
-    public UserService (@Qualifier("userDbStorage") UserStorage userStorage) {
+    public UserService(@Qualifier("userDbStorage") UserStorage userStorage) {
         this.userStorage = userStorage;
     }
+
     public void addFriend(int id, int friendId) {
         userStorage.addFriend(id, friendId);
     }
