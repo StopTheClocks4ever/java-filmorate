@@ -2,13 +2,15 @@ package ru.yandex.practicum.filmorate.storage.film;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.util.*;
 
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
 
-    private final Map<Long, Film> films = new HashMap<>();
+    private final List<Film> films = new ArrayList<>();
     private int filmId = 0;
 
     private int generateNewId() {
@@ -16,25 +18,57 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     public void addFilm(Film film) {
-        film.setId(generateNewId());
-        film.setLikes(new HashSet<>());
-        films.put(film.getId(), film);
+
     }
 
     public void updateFilm(Film film) {
-        film.setLikes(new HashSet<>());
-        films.put(film.getId(), film);
+
     }
 
     public void deleteFilm(int filmId) {
         films.remove(filmId);
     }
 
-    public Map<Long, Film> getFilms() {
+    public List<Film> getFilms() {
         return films;
     }
 
+    @Override
+    public Film getFilmById(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Mpa> getAllMpa() {
+        return null;
+    }
+
+    @Override
+    public Mpa getMpaById(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Genre> getAllGenres() {
+        return null;
+    }
+
+    @Override
+    public Genre getGenreById(int id) {
+        return null;
+    }
+
+    @Override
+    public void addLike(int id, int userId) {
+
+    }
+
+    @Override
+    public void deleteLike(int id, int userId) {
+
+    }
+
     public boolean isFilmExists(Film film) {
-        return films.containsKey(film.getId());
+        return films.contains(film);
     }
 }

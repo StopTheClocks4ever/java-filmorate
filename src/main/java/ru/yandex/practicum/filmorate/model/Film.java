@@ -4,16 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class Film {
-    private long id;
-    private final String name;
-    private final String description;
-    private final LocalDate releaseDate;
-    private final Integer duration; //продолжительность в минтутах
-    private Set<Long> likes;
-    private long likesSum;
+
+    private int id;
+    private String name;
+    private String description;
+    private LocalDate releaseDate;
+    private Integer duration; //продолжительность в минтутах
+    private Mpa mpa;
+    private List<Genre> genres;
+    private int rate;
+
+    public Film() {
+    }
 }
