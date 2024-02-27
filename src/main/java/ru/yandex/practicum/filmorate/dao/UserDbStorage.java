@@ -11,11 +11,8 @@ import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class UserDbStorage implements UserStorage {
@@ -57,19 +54,23 @@ public class UserDbStorage implements UserStorage {
     public List<User> getUsers() {
         return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
+
     @Override
     public User getUserById(int id) {
         return jdbcTemplate.query("SELECT * FROM Users WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(User.class))
                 .stream().findAny().orElse(null);
     }
+
     @Override
     public void addFriend(int id, int friendId) {
         jdbcTemplate.update("INSERT INTO Friends (user_id, friend_id) VALUES(?, ?)", id, friendId);
     }
+
     @Override
     public void deleteFriend(int id, int friendId) {
         jdbcTemplate.update("DELETE FROM Friends WHERE user_id=? AND friend_id=?", id, friendId);
     }
+
     @Override
     public List<User> getUserFriends(int id) {
         return jdbcTemplate.query("SELECT * FROM Users WHERE id IN (SELECT friend_id FROM Friends WHERE user_id=?)", new BeanPropertyRowMapper<>(User.class), id);
@@ -83,19 +84,7 @@ public class UserDbStorage implements UserStorage {
                 .distinct()
                 .filter(friends2::contains)
                 .collect(Collectors.toList());
-        /*List<User> friends1 = getUserFriends(id);
-        List<User> friends2 = getUserFriends(otherId);
-        Map<User, Integer> map1 = friends1.stream()
-                .collect(Collectors.groupingBy(p -> p, Collectors.summingInt(x -> 1)));
-        Map<User, Integer> map2 = friends2.stream()
-                .collect(Collectors.groupingBy(p -> p, Collectors.summingInt(x -> 1)));
 
-        List<User> common = map2.keySet().stream()
-                .filter(map1::containsKey)
-                .flatMap(k -> Stream.generate(() -> k).limit(Math.min(map1.get(k), map2.get(k))))
-                .collect(Collectors.toList());
-        List<User> common = new ArrayList<>(friends1);
-        common.retainAll(friends2);*/
         return common;
     }
 }
