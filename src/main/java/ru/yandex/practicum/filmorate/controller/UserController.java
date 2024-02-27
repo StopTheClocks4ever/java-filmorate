@@ -55,8 +55,7 @@ public class UserController {
                 return user;
             }
             return user;
-        }
-        else {
+        } else {
             throw new UserNotFoundException("Такого пользователя не существует.");
         }
     }

@@ -5,7 +5,7 @@ public class Like {
     int filmId;
     int userId;
 
-    public Like () {
+    public Like() {
 
     }
 
