@@ -17,14 +17,11 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public void addUser(User user) {
-        user.setId(generateNewId());
-        user.setFriends(new HashSet<>());
-        users.add(user);
+
     }
 
     public void updateUser(User user) {
-        user.setFriends(new HashSet<>());
-        users.add(user);
+
     }
 
     public void deleteUser(int userId) {
@@ -54,39 +51,19 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public void addFriend(int id, int friendId) {
-        users.get(id).getFriends().add(friendId);
-        updateUser(getUserById(id));
-        users.get(friendId).getFriends().add(id);
-        updateUser(getUserById(friendId));
+
     }
 
     public void deleteFriend(int id, int friendId) {
-        users.get(id).getFriends().remove(friendId);
-        updateUser(getUserById(id));
-        users.get(friendId).getFriends().remove(id);
-        updateUser(getUserById(friendId));
+
     }
 
     public List<User> getUserFriends(int id) {
-        Set<Integer> userFriends = new HashSet<>(users.get(id).getFriends());
-        List<User> friends = new ArrayList<>();
-        for (int friendId : userFriends) {
-            friends.add(users.get(friendId));
-        }
-        return friends;
+        return null;
     }
 
     @Override
     public List<User> getUserCommonFriends(int id, int otherId) {
-        Set<Integer> user1Friends = new HashSet<>(users.get(id).getFriends());
-        Set<Integer> user2Friends = users.get(otherId).getFriends();
-        user1Friends.retainAll(user2Friends);
-
-        List<User> commonFriends = new ArrayList<>();
-        for (int userId : user1Friends) {
-            commonFriends.add(users.get(userId));
-        }
-        return commonFriends;
+        return null;
     }
-
 }
