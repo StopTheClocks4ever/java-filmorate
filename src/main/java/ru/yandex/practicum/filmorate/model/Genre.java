@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import java.util.Objects;
 
 public class Genre {
+
     int id;
     String name;
 
