@@ -2,8 +2,8 @@ package ru.yandex.practicum.filmorate.model;
 
 public class Like {
 
-    int filmId;
-    int userId;
+    private int filmId;
+    private int userId;
 
     public Like() {
 
